@@ -38,10 +38,7 @@ def calculate(form, total=0):
 
 
 if __name__ == "__main__":
-    calculate("1 + (2 * 3) + (4 * (5 + 6))")
-
     total = 0
     for line in sys.stdin:
         total += calculate(line)
-
     print(total)
