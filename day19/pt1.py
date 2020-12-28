@@ -11,7 +11,7 @@ def resolve(rules, rule="0"):
     if re.search(r"\d", r) is None:
         return re.sub(r"[\" ]+", "", r)
 
-    r = re.sub(r"\d+", lambda m: "(" + resolve(rules, m.group(0)) + ")", r)
+    r = re.sub(r"\d+(?!})", lambda m: "(?:" + resolve(rules, m.group(0)) + ")", r)
     return r
 
 
@@ -31,5 +31,4 @@ if __name__ == "__main__":
     lines = stripper(sys.stdin)
     rules = parse(block(lines))
     matcher = re.compile("^" + resolve(rules).replace(" ", "") + "$")
-
     print(sum(m is not None for m in map(matcher.match, lines)))
