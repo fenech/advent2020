@@ -30,3 +30,16 @@ class EdgesTestCase(unittest.TestCase):
             pt2.edges(tile),
             {"top": "123", "right": "369", "bottom": "789", "left": "147"},
         )
+
+
+class SeaMonsterTestCase(unittest.TestCase):
+    def test_sea_monster(self):
+        self.assertTrue(pt2.sea_monster(pt2.monster, 0, 0))
+
+    def test_all_dots(self):
+        image = ["............................" for line in pt2.monster]
+        self.assertFalse(pt2.sea_monster(image, 0, 0))
+
+    def test_all_hashes(self):
+        image = ["############################" for line in pt2.monster]
+        self.assertTrue(pt2.sea_monster(image, 0, 0))

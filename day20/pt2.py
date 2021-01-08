@@ -32,6 +32,23 @@ def actions():
         yield rotate_90_clockwise
 
 
+monster = [
+    "                  # ",
+    "#    ##    ##    ###",
+    " #  #  #  #  #  #   ",
+]
+
+monster_height = len(monster)
+monster_width = len(monster[0])
+
+
+def sea_monster(image, x, y):
+    return all(
+        all(a == " " or a == b for a, b in zip(monster[my], image[y + my][x:]))
+        for my, line in enumerate(monster)
+    )
+
+
 if __name__ == "__main__":
     tiles = parse(sys.stdin.read())
     corners = find_corners(tiles)
@@ -99,4 +116,15 @@ if __name__ == "__main__":
             ]
         )
 
-    print("\n".join(combined_image))
+    count = 0
+    for action in actions():
+        for y, line in enumerate(combined_image[:-monster_height]):
+            for x, _ in enumerate(line[:-monster_width]):
+                if sea_monster(combined_image, x, y):
+                    count += 1
+        combined_image = action(combined_image)
+
+    print(
+        sum(sum(c == "#" for c in line) for line in combined_image)
+        - count * sum(sum(c == "#" for c in line) for line in monster)
+    )
