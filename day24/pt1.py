@@ -27,10 +27,14 @@ def move(line):
     return x, y
 
 
-if __name__ == "__main__":
+def flip(lines):
     tiles = {}
-    for line in sys.stdin:
+    for line in lines:
         pos = move(line)
         tiles[pos] = not tiles.get(pos, False)
+    return tiles
 
-    print(sum(t for t in tiles.values()))
+
+if __name__ == "__main__":
+    tiles = flip(sys.stdin)
+    print(sum(tiles.values()))
